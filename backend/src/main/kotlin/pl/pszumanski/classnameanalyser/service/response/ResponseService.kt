@@ -1,8 +1,7 @@
 package pl.pszumanski.classnameanalyser.service.response
 
-import pl.pszumanski.classnameanalyser.dto.ApiResponse
-import pl.pszumanski.classnameanalyser.values.SupportedLanguage
+import pl.pszumanski.classnameanalyser.dto.api.ApiRequest
 
 interface ResponseService {
-    fun getResponse(language: SupportedLanguage = SupportedLanguage.JAVA): ApiResponse
+    fun getResponse(apiRequest: ApiRequest)
 }

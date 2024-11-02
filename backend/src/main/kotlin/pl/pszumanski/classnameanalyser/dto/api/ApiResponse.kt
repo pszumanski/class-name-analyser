@@ -1,4 +1,4 @@
-package pl.pszumanski.classnameanalyser.dto
+package pl.pszumanski.classnameanalyser.dto.api
 
 import pl.pszumanski.classnameanalyser.values.SupportedLanguage
 

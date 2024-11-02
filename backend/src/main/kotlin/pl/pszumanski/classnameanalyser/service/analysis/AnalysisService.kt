@@ -1,16 +1,15 @@
 package pl.pszumanski.classnameanalyser.service.analysis
 
-import pl.pszumanski.classnameanalyser.dto.analysis.AnalysisResult
 import pl.pszumanski.classnameanalyser.dto.file.GithubFile
+import pl.pszumanski.classnameanalyser.websocket.DataContainer
 
 interface AnalysisService {
 
     /**
-     * Modifies map to reflect occurrences of class names
+     * Analyse classes and update data container with the results
      *
-     * @param classes list of names to analyse
-     * @param words map to update
-     * @return summary of analysis
+     * @param classes list of classes to analyse
+     * @param dataContainer container to update with the results
      */
-    fun analyse(classes: List<GithubFile>, words: MutableMap<String, Int>): AnalysisResult
+    fun analyse(classes: List<GithubFile>, dataContainer: DataContainer)
 }

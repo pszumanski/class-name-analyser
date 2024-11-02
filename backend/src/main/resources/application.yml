@@ -1,5 +1,6 @@
 github:
   personal-access-token: ${GITHUB_TOKEN}
+frontend-url: ${FRONTEND_URL}
 spring:
   application:
     name: class-name-analyser
