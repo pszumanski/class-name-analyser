@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Footer } from "./footer";
+import { capitalize } from "@/utils/stringUtils";
 
 export const Home = () => {
     const location = useLocation()
-    const [language, setLanguage] = useState(location.state != null ? location.state : "java");
+    const [language, setLanguage] = useState( "java");
 
     const textClassName = `text-xl mt-4`;
     const languageClassName = `font-bold text-5xl`;
 
-    return <div className="text-center items-center flex flex-col bg-slate-50 text-slate-700 h-[100vh]">
+    useEffect(() => {
+        if (location.state != null) {
+            setLanguage(location.state)
+        }
+    }, [])
+
+    return <div className="text-center items-center flex flex-col bg-slate-50 text-slate-700 min-h-[100vh]">
         <div className="my-36 text-6xl font-semibold">
-            Class Name Analyser
+            Class Name Analyser<br className="bg-kotlin hover:bg-kotlinSelected bg-java hover:bg-javaSelected"/>
         </div>
         <div className="flex gap-6 mb-24">
             <p className={textClassName}>Let's analyse class names in popular</p>
@@ -23,10 +30,10 @@ export const Home = () => {
                 </SelectTrigger>
                 <SelectContent className="w-[200px]">
                     <SelectItem value="java">
-                        <p className={`text-orange-400 mx-8 ${languageClassName}`}>Java</p>
+                        <p className={`mx-8 text-java ${languageClassName}`}>Java</p>
                     </SelectItem>
                     <SelectItem value="kotlin">
-                        <p className={`text-kotlin mx-3 ${languageClassName}`}>Kotlin</p>
+                        <p className={`mx-3 text-kotlin ${languageClassName}`}>Kotlin</p>
                     </SelectItem>
                 </SelectContent>
             </Select>
@@ -37,9 +44,13 @@ export const Home = () => {
                 </Button>
             </Link>
         </div>
-        <div className="w-1/2">
-            TODO: Add description
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum delectus veritatis porro temporibus, nam et beatae, atque sit unde repudiandae mollitia ab, ad quisquam! Maxime recusandae eos qui pariatur placeat?
+        <div className="w-[1/2vw] mb-28">
+            <p className="text-slate-500">
+                Provides analysis of class names in {capitalize(language)}-based popular projects published on GitHub.<br/>
+                Due to GitHub API request rate limits, fetches data sequentially over WebSocket connection.<br />
+                Checks only classes with UpperCamelCase naming convention.<br />
+                Assumes 1 class per file with the same name as filename.<br />
+            </p>
         </div>
         <Footer />
     </div>;

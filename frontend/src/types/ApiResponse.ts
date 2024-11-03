@@ -1,3 +1,5 @@
+import { Word } from "./Word";
+
 export type ApiResponse = {
     language: string;
     totalRepositoriesCount: number;
@@ -7,5 +9,5 @@ export type ApiResponse = {
     wordsAnalysed: number;
     averageWordsPerClass: number;
     percentageOfValidClasses: number;
-    words: Map<string, number>;
-}
+    words: Word[];
+};

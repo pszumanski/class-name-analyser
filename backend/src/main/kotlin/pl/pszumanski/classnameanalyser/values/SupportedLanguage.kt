@@ -6,9 +6,9 @@ enum class SupportedLanguage(val extension: String) {
 
     companion object {
         fun fromString(language: String): SupportedLanguage {
-            return when (language) {
+            return when (language.lowercase()) {
                 "java" -> JAVA
-                "kt" -> KOTLIN
+                "kotlin" -> KOTLIN
                 else -> JAVA
             }
         }

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import pl.pszumanski.classnameanalyser.dto.file.ClassesResponse
-import pl.pszumanski.classnameanalyser.dto.limit.LimitResponse
 import pl.pszumanski.classnameanalyser.dto.repo.GithubRepository
 import pl.pszumanski.classnameanalyser.dto.repo.RepositoriesResponse
 import pl.pszumanski.classnameanalyser.values.SupportedLanguage
@@ -28,12 +27,4 @@ class DataServiceImpl(val githubClient: RestClient) : DataService {
         .uri("/search/repositories?q=language:${language.name.lowercase()}&$resultsPerPage&sort=stars")
         .retrieve()
         .body<RepositoriesResponse>() ?: throw IllegalStateException("Fetching error")
-
-    override fun getRemainingRequests(): Int = getLimit().resources.codeSearch.remaining - 1
-    // GitHub blocks the last API call
-
-    override fun getLimit(): LimitResponse = githubClient.get()
-        .uri("rate_limit")
-        .retrieve()
-        .body<LimitResponse>() ?: throw IllegalStateException("Fetching error")
 }

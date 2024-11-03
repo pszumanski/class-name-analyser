@@ -1,4 +1,5 @@
 package pl.pszumanski.classnameanalyser.dto.file
 
-data class GithubFile(val name: String) {
-}
+data class GithubFile(
+    val name: String,
+)

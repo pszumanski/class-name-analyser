@@ -22,7 +22,7 @@ class AnalysisServiceImpl : AnalysisService {
     private fun updateWordCount(clazzWords: Set<String>, words: MutableMap<String, Int>) {
         for (clazzWord in clazzWords) {
             words.putIfAbsent(clazzWord, 0)
-            words.compute(clazzWord) {_, value -> value?.plus(1) }
+            words.compute(clazzWord) { _, value -> value?.plus(1) }
         }
     }
 }

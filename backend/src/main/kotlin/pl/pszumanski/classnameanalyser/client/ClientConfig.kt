@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClient
 class ClientConfig {
 
     @Value("\${github.personal-access-token}")
-    lateinit var githubToken:String
+    lateinit var githubToken: String
 
     @Bean
     fun githubClient(): RestClient = RestClient.builder()

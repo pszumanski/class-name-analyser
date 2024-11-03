@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Scope
 import org.springframework.context.annotation.ScopedProxyMode
 import org.springframework.stereotype.Component
 import pl.pszumanski.classnameanalyser.dto.api.ApiResponse
+import pl.pszumanski.classnameanalyser.dto.api.Word
 import pl.pszumanski.classnameanalyser.dto.repo.GithubRepository
 import pl.pszumanski.classnameanalyser.values.SupportedLanguage
-import java.util.*
-import kotlin.collections.HashMap
+import kotlin.math.max
 
 @Component
 @Scope(scopeName = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -29,9 +29,9 @@ class DataContainer {
         classesAnalysed = classesAnalysed,
         validClasses = validClasses,
         wordsAnalysed = wordsAnalysed,
-        words = words,
-        averageWordsPerClass = (wordsAnalysed.toDouble()) / validClasses,
-        percentageOfValidClasses = (validClasses.toDouble() / classesAnalysed) * 100,
+        words = words.map { Word(it.key, it.value) },
+        averageWordsPerClass = wordsAnalysed.toDouble() / max(1, validClasses),
+        percentageOfValidClasses = (validClasses.toDouble() / max(1, classesAnalysed)) * 100,
     )
 
     fun getRepositoryToAnalyse(): GithubRepository = repositories[repositoriesAnalysed % repositories.size]
