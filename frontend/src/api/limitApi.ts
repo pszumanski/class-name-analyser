@@ -10,6 +10,7 @@ export const getLimitInfo = () => (
             }
         })
         .catch(error => {
-            console.log('TODO: redirect to error page');
+            console.log(error);
+            window.location.href = '/error';
         })
 );
