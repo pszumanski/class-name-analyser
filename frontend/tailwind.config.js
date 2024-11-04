@@ -10,9 +10,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        java: "#f8981d",
+        java: "#ff9814",
         kotlin: "#7f52ff",
-        javaSelected: "#fda93d",
+        javaSelected: "#ed8501",
         kotlinSelected: "#6733ff",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

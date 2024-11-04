@@ -8,9 +8,17 @@ Due to GitHub API request rate limits, fetches data sequentially over WebSocket 
 
 ## Quick overiew
 
-TODO: add screenshots
+### Main page
 
-Video presentation: TODO
+![kotlin main page](/readme-assets/kotlin-main.png)
+
+![java main page](/readme-assets/java-main.png)
+
+### Analysis screen
+
+![analysis](/readme-assets/analysis.png)
+
+Video presentation is available [here](https://youtu.be/d_yw3Qxh5P4)
 
 ## How to run
 
@@ -21,6 +29,11 @@ Generate fine-grained personal access token [here](https://github.com/settings/p
 ### Set environment variables
 
 In root directory there is [.env file](.env), set your GitHub Access Token generated in precious step.
+
+```Dotenv
+GITHUB_TOKEN=<Your Github Access Token>
+```
+
 You can optionally set ports the application will be available on.
 
 ### Run on Docker
