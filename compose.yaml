@@ -1,0 +1,23 @@
+services:
+  backend:
+    container_name: class-name-analyser-backend
+    build:
+      context: ./backend
+    ports:
+      - ${BACKEND_PORT}:8085
+    restart: unless-stopped
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - FRONTEND_URL=${FRONTEND_URL}
+
+  frontend:
+    container_name: class-name-analyser-frontend
+    build:
+      context: ./frontend
+      args:
+        - BACKEND_URL=${BACKEND_URL}
+    ports:
+      - ${FRONTEND_PORT}:5175
+    restart: unless-stopped
+    depends_on:
+      - backend
