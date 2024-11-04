@@ -7,11 +7,13 @@ import pl.pszumanski.classnameanalyser.values.SupportedLanguage
 
 interface DataService {
 
-    fun getPopularRepositories(language: SupportedLanguage): RepositoriesResponse
-
     fun getClassesFromRepository(
         repository: GithubRepository,
         language: SupportedLanguage,
-        page: Int,
     ): ClassesResponse
+
+    fun getPopularRepositories(
+        language: SupportedLanguage,
+        page: Int,
+    ): RepositoriesResponse
 }

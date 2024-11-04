@@ -16,15 +16,15 @@ class DataServiceImpl(val githubClient: RestClient) : DataService {
     override fun getClassesFromRepository(
         repository: GithubRepository,
         language: SupportedLanguage,
-        page: Int,
     ): ClassesResponse = githubClient
         .get()
-        .uri("/search/code?q=extension:${language.extension} repo:${repository.name}&$resultsPerPage&page=$page") //
+        .uri("/search/code?q=extension:${language.extension} repo:${repository.name}&$resultsPerPage")
         .retrieve()
         .body<ClassesResponse>() ?: throw IllegalStateException("Fetching error")
 
-    override fun getPopularRepositories(language: SupportedLanguage): RepositoriesResponse = githubClient.get()
-        .uri("/search/repositories?q=language:${language.name.lowercase()}&$resultsPerPage&sort=stars")
+    override fun getPopularRepositories(language: SupportedLanguage, page: Int): RepositoriesResponse = githubClient
+        .get()
+        .uri("/search/repositories?q=language:${language.name.lowercase()}&$resultsPerPage&sort=stars&page=$page")
         .retrieve()
         .body<RepositoriesResponse>() ?: throw IllegalStateException("Fetching error")
 }

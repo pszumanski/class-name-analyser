@@ -34,21 +34,20 @@ class ResponseServiceImpl(
         if (availableRequests == 0) return
 
         if (dataContainer.isEmpty()) {
-            val repositoriesResponse: RepositoriesResponse = dataService.getPopularRepositories(language)
-
             dataContainer.sessionId = sessionId
             dataContainer.language = language
-            dataContainer.repositories = repositoriesResponse.repositories
-            dataContainer.totalRepositoriesCount = repositoriesResponse.publicRepositoriesCount
-            availableRequests--
+            loadRepositories(language)
         }
 
         try {
+            if (repositoriesShouldBeLoaded(availableRequests)) {
+                loadRepositories(language)
+                availableRequests--;
+            }
             for (i in 0..<availableRequests) {
                 val classesResponse: ClassesResponse = dataService.getClassesFromRepository(
                     repository = dataContainer.getRepositoryToAnalyse(),
                     language = language,
-                    page = dataContainer.getPageToAnalyse()
                 )
 
                 dataContainer.repositoriesAnalysed++
@@ -58,7 +57,19 @@ class ResponseServiceImpl(
                 notificationService.update(sessionId, dataContainer.toApiResponse())
             }
         } catch (exception: HttpClientErrorException) {
-            logger.error(exception.message) // GitHub Api resources limit exceeded, cannot be calculated
+            logger.error(exception.message) // GitHub Api resources limit exceeded
         }
+    }
+
+    fun repositoriesShouldBeLoaded(availableRequests: Int): Boolean {
+        return 100 - (dataContainer.repositoriesAnalysed % 100) < availableRequests
+    }
+
+    fun loadRepositories(language: SupportedLanguage) {
+        val repositoriesResponse: RepositoriesResponse = dataService.getPopularRepositories(
+            language,
+            dataContainer.repositories.size / 100)
+        dataContainer.repositories.addAll(repositoriesResponse.repositories)
+        dataContainer.totalRepositoriesCount = repositoriesResponse.publicRepositoriesCount
     }
 }

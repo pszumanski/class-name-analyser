@@ -60,7 +60,7 @@ export const Analysis = (props: Props) => {
             stompClient.subscribe(`/topic/${sessionIdRef.current}/update`, (message) => {
                 setData(JSON.parse(message.body) as ApiResponse);
                 setInitialized(true);
-                getLimitInfo().then(data => setLimitInfo(data));
+                setWaitingTime(60)
             });
         });
 
@@ -97,24 +97,25 @@ export const Analysis = (props: Props) => {
 
     useEffect(() => {
         setSortedWords(data.words.sort((a, b) => b.count - a.count));
+        setWaitingTime(60);
     }, [data]);
 
     useEffect(() => {
-        if (limitInfo.remaining > 8) {
+        if (limitInfo.remaining > 0) {
             setWaitingTime(0);
-
-            if (loadData.current) requestData();
         } else {
             setWaitingTime(Math.ceil(limitInfo.reset - (Date.now() / 1000)) - 1);
-
-            if (waitingTime > 0 && loadData.current) {
-                setTimeout(() => { requestData(); }, waitingTime * 1000);
-            }
         }
 
         const interval = setInterval(() => setWaitingTime(prev => prev - 1), 1000);
         return () => clearInterval(interval);
-    }, [limitInfo, loadData.current]);
+    }, [limitInfo]);
+
+    useEffect(() => {
+        if (waitingTime === 0) {
+            requestData();
+        }
+    }, [waitingTime, loadData.current]);
 
     return <div className="text-center items-center flex flex-col bg-slate-50 text-slate-600 min-h-[100vh]">
         {initalized ?
@@ -182,7 +183,7 @@ export const Analysis = (props: Props) => {
             </>
             :
             <div className="mt-[35vh] my-[30vh] flex flex-col items-center" onLoad={getLimitInfo}>
-                <HashLoader color={`${language == 'java' ? '#f8981d' : '#7f52ff'}`} />
+                <HashLoader color={`${language == 'java' ? '#ff9814' : '#7f52ff'}`} />
                 <div className="mt-8">
                     Waiting for GitHub Api{dots}<br />
                     {waitingTime > 0

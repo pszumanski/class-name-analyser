@@ -13,7 +13,7 @@ import kotlin.math.max
 @Scope(scopeName = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)
 class DataContainer {
     var sessionId: String = ""
-    var repositories: List<GithubRepository> = ArrayList()
+    var repositories: MutableList<GithubRepository> = ArrayList()
     var language: SupportedLanguage = SupportedLanguage.JAVA
     var totalRepositoriesCount: Int = 0
     var repositoriesAnalysed: Int = 0
@@ -34,9 +34,7 @@ class DataContainer {
         percentageOfValidClasses = (validClasses.toDouble() / max(1, classesAnalysed)) * 100,
     )
 
-    fun getRepositoryToAnalyse(): GithubRepository = repositories[repositoriesAnalysed % repositories.size]
-
-    fun getPageToAnalyse(): Int = repositoriesAnalysed / repositories.size
+    fun getRepositoryToAnalyse(): GithubRepository = repositories[repositoriesAnalysed]
 
     fun isEmpty(): Boolean = repositories.isEmpty()
 }
