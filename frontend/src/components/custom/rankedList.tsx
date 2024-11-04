@@ -10,7 +10,7 @@ type Props = {
 export const RankedList = (props: Props) => (
     <div className="grid grid-cols-2 justify-center items-center mb-1">
         <div>
-            <span className={`font-semibold text-${props.language} text-xl`}>{props.ranking + 1}</span>&nbsp;
+            <span className={`font-semibold text-${props.language} text-2xl`}>{props.ranking + 1}</span>&nbsp;
         </div>
         <div>
             <li key={props.word.word} className="text-center text-lg">
